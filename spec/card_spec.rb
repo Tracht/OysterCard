@@ -3,11 +3,33 @@ require 'rspec/its' # you need to intall $ gem install rspec-its
 
 shared_context "topped up" do
   let(:subject) do
+    min_balance = Card::MIN_BALANCE
     subject = described_class.new
-    subject.top_up(1)
+    subject.top_up(min_balance)
     subject
   end
 end
+
+shared_context "topped up & tapped_in" do
+  let(:subject) do
+    min_balance = Card::MIN_BALANCE
+    subject = described_class.new
+    subject.top_up(min_balance)
+    subject.tap_in(entry_station)
+    subject
+  end
+end
+
+# shared_context "when topped up, tapped_in, and then tapping_out" do
+#   let(:subject) do
+#     subject = described_class.new
+#     min_balance = Card::MIN_BALANCE
+#     subject.top_up(min_balance)
+#     subject.tap_in(entry_station)
+#     subject.tap_out(exit_station)
+#     subject
+#   end
+# end
 
 describe Card do
 
@@ -38,18 +60,21 @@ describe Card do
           expect{ subject.top_up(-10) }.to raise_error "Cannot top-up with negative amount"
         end
     end
+  end
 
-    describe '#tap_in' do
-        it 'is in a journey?' do
-          expect { subject.tap_in(entry_station) }.to change { subject.in_journey? }.to true
-        end
-        it 'is not in a journey?' do
-          subject.tap_in(entry_station)
-          expect { subject.tap_out(exit_station) }.to change { subject.in_journey? }.to false
-        end
-        it 'adds entry_station to journeys' do
-          expect { subject.tap_in(entry_station) }.to change { subject.journeys }.to include({:entry_station => entry_station, :exit_station => nil})
-        end
+  context "when topped up and tapped in" do
+    include_context "topped up & tapped_in"
+
+    describe '#tapped_in' do
+      it 'return true for in_journey?' do
+        expect(subject.in_journey?).to be true
+      end
+      it 'return false for in_journey?' do
+        expect { subject.tap_out(exit_station) }.to change { subject.in_journey? }.to false
+      end
+      it 'adds entry_station to journeys' do
+        expect(subject.journeys).to include({:entry_station => entry_station, :exit_station => nil})
+      end
     end
 
     describe '#tap_out' do
