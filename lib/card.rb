@@ -1,3 +1,5 @@
+require 'journey'
+
 class Card
   MAX_BALANCE = 90
   MIN_BALANCE = 1
@@ -5,7 +7,8 @@ class Card
 
   def initialize(balance=0)
     @balance = balance
-    @journeys = []
+    # @journeys = []
+    @journeys = Journey.new
   end
 
   def top_up(amount)
@@ -18,13 +21,11 @@ class Card
     fail "Insufficient funds: min. £#{MIN_BALANCE} required" if @balance < MIN_BALANCE
     station_hash = {:entry_station => entry_station, :exit_station => nil}
     @journeys.push(station_hash)
-    # @journey.start_journey(entry_station)
   end
 
   def tap_out(exit_station)
     deduct_fare
     @journeys.last[:exit_station] = exit_station
-    # @journey.end_journey(exit_station)
   end
 
   def in_journey?

@@ -1,4 +1,5 @@
 require "card"
+require "journey"
 require 'rspec/its' # you need to intall $ gem install rspec-its
 
 shared_context "topped up" do
@@ -35,10 +36,13 @@ describe Card do
 
   let(:entry_station) { double() }
   let(:exit_station) { double() }
+  # let(:journey) { double() }
 
   context "when initialized" do #refactored with "its". only avail with 'describe' or 'context' blocks
       its (:balance) { is_expected.to eq(0) }
-      its (:journeys) { is_expected.to eq([]) }
+      it "creates instance of journey" do
+        expect(subject.journeys).to be_an_instance_of(Journey)
+    end
   end
 
   context 'when balance is at max limit' do

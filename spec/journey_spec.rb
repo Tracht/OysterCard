@@ -1,4 +1,5 @@
 require 'journey'
+require 'card'
 
 describe Journey do
 
@@ -9,6 +10,7 @@ describe Journey do
       end
     end
   end
+
 
 
   # context 'when tapped_in' do
