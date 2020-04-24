@@ -31,10 +31,6 @@ class Card
     false
   end
 
-  def journeys
-    @journeys
-  end
-
   private
   def deduct_fare
     @balance -= MIN_BALANCE
