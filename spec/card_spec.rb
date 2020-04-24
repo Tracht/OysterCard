@@ -77,7 +77,7 @@ describe Card do
         expect { subject.tap_out(exit_station) }.to change { subject.in_journey? }.to false
       end
       it 'adds entry_station to journeys' do
-        expect(subject.journeys).to include({:entry_station => entry_station, :exit_station => nil})
+        expect(subject.journeys.journeys).to include({:entry_station => entry_station, :exit_station => nil})
       end
     end
 
@@ -89,7 +89,7 @@ describe Card do
         end
         it 'a completed journey is added to journeys' do
           subject.tap_in(entry_station)
-          expect { subject.tap_out(exit_station) }.to change { subject.journeys.last[:exit_station] }.from(nil).to(exit_station)
+          expect { subject.tap_out(exit_station) }.to change { subject.journeys.journeys.last[:exit_station] }.from(nil).to(exit_station)
         end
     end
   end
@@ -105,7 +105,7 @@ describe Card do
 
   context 'when 2 journeys completed' do
     it 'cards shows previous journeys' do
-      expect(subject.journeys).to be_a_kind_of Array
+      expect(subject.journeys.journeys).to be_a_kind_of Array
     end
   end
 

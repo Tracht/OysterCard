@@ -1,8 +1,8 @@
 class Journey
-  attr_reader :journeys
-  
+  attr_accessor :journeys
+
   def initialize
-    @journeys = []
+    @journeys = Array.new
   end
 
 end
@@ -17,3 +17,4 @@ end
 #
 # Journey class
 # @journeys = []
+# card.tap_in(station)
