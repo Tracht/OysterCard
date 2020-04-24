@@ -1,7 +1,7 @@
 class Card
   MAX_BALANCE = 90
   MIN_BALANCE = 1
-  attr_reader :balance, :entry_station
+  attr_reader :balance, :entry_station, :journeys
 
   def initialize(balance=0)
     @balance = balance
